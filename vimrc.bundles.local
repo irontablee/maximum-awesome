@@ -1,0 +1,4 @@
+Bundle 'davidhalter/jedi-vim'
+Bundle 'mxw/vim-jsx'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'

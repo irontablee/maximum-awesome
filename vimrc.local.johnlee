@@ -1,0 +1,85 @@
+"set nocursorline " don't highlight current line
+"set cc=90
+set cc=82
+
+" keyboard shortcuts
+inoremap jj <ESC>
+" map CTRL+c to copy
+map <C-c> "+y
+
+" highlight search
+"set hlsearch
+"nmap <leader>hl :let @/ = ""<CR>
+
+" gui settings
+if (&t_Co == 256 || has('gui_running'))
+  if ($TERM_PROGRAM == 'iTerm.app')
+    colorscheme solarized
+  else
+    colorscheme desert
+  endif
+endif
+
+set background=dark
+let g:solarized_termcolors = 256
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+let g:solarized_diffmode = "high"
+colorscheme solarized
+
+" Disambiguate ,a & ,t from the Align plugin, making them fast again.
+"
+" This section is here to prevent AlignMaps from adding a bunch of mappings
+" that interfere with the very-common ,a and ,t mappings. This will get run
+" at every startup to remove the AlignMaps for the *next* vim startup.
+"
+" If you do want the AlignMaps mappings, remove this section, remove
+" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
+function! s:RemoveConflictingAlignMaps()
+  if exists("g:loaded_AlignMapsPlugin")
+    AlignMapsClean
+  endif
+endfunction
+command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
+silent! autocmd VimEnter * RemoveConflictingAlignMaps
+
+set softtabstop=4
+
+au BufNewFile,BufRead *.groovy setf groovy
+au BufNewFile,BufRead *.gradle setf groovy
+
+" PLUGIN SETTINGS
+" airblade/vim-gitgutter
+let g:gitgutter_enabled = 1
+autocmd BufWritePost * GitGutter  "update the signs when you save a file
+" below line fixes something with git gutter color
+highlight! link SignColumn LineNr
+
+" scrooloose/syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+"let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['flake8']
+
+" nathanaelkane/vim-indent-guides
+"let g:indent_guides_enable_on_vim_startup = 1
+"let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=235
+
+" davidhalter/jedi-vim
+let g:jedi#auto_initialization = 0
+autocmd FileType python setlocal completeopt-=preview
+
+" vim-airline/vim-airline
+let g:airline_powerline_fonts = 1
+let g:airline_theme='light'
+
+" mxw/vim-jsx
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
